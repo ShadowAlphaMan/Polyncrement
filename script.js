@@ -531,7 +531,7 @@ function dec_dig( amount ) {
     document.getElementById("dig_dec_txt").innerHTML = "Decrease the number of digits for $10<sup>20</sup> and reseting everything."
   } else {
     document.getElementById("dig_dec").innerHTML = "Limit f(x)."
-    
+
     document.getElementById("dig_dec").style.dislpay = "none"
     document.getElementById("dig_dec").classList.add("invis")
     document.getElementById("dig_dec").classList.add("limit-button")
@@ -552,8 +552,7 @@ function startOver() {
 
   document.getElementById("shop1").classList.remove("invis");
   document.getElementById(words[1]).classList.remove("invis");
-  document.getElementById("input_inc_txt").innerHTML = "Increase the input on cash out by trading in 10 linear terms,
-  sacrificing the rest and losing your money.";
+  document.getElementById("input_inc_txt").innerHTML = "Increase the input on cash out by trading in 10 linear terms, sacrificing the rest and losing your money.";
 
   document.getElementById("cashb_text").classList.remove("invis");
   document.getElementById("cashb").classList.remove("invis");
