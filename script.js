@@ -89,7 +89,7 @@ function getNewSave() { // setup
   document.getElementById("dig_dec").innerHTML = "Decrease"
   document.getElementById("dig_dec").classList.add("invis")
 
-  game.1d0 = D(0)
+  game.d0 = D(0)
 }
 
 
@@ -224,7 +224,7 @@ function cashout() {
 
 function input_inc() {
   if ( document.getElementById("money_display").classList.contains("invis") ) {
-    game.1d0++;
+    game.d0++;
     startOver();
   } else if (game.f[Math.min(game.n, 6)] >= Math.min(10, game.digits - 1)) {
     game.f[Math.min(game.n, 6)] = 0;
