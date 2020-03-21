@@ -210,7 +210,7 @@ function main() {
         document.getElementById("cashb_auto").classList.add("invis");
 
         document.getElementById("display").innerHTML =
-          <img src="geom.png">;
+          '<img src="geom.png">';
       }
     }
   });
