@@ -193,7 +193,7 @@ function main() {
 
         dec_dig( amountOver );
       } else {
-        // // // ///////////////////////////////////////////////////////////////////// begin end game
+        // // // ///////////////////////////////////////////// begin end game
         dec_dig( 0 );
         document.getElementById("money_display").classList.add("invis");
         document.getElementById("digits").classList.add("invis");
@@ -231,14 +231,14 @@ function input_inc() {
     game.n++;
     game.cash = 0;
     refresh();
-    if (game.n <= 7) {
+    if ( D.lte(game.n, 7) ) {
       document.getElementById(words[game.n - 1] + "_auto").classList.remove("invis");
     }
   }
-}
+} // Increases the input to the function in cashout
 
 function buy(m) {
-  if (game.cash >= cost(m)) {
+  if ( D.gte( game.cash, D(cost(m)) ) ) {
     game.cash -= cost(m);
     game.f = array_add(basis(m), game.f);
     game.flength = game.f.length
@@ -246,9 +246,11 @@ function buy(m) {
     if (game.automatic == true) {
       input_inc();
     }
-    refresh();
+    refresh(); // could make this refresh smaller
+    // this seems to be where the flickering cash display is coming from
+    // the flickering happens prefectly in time with the increasing of the terms
   }
-}
+} // Adds terms to the function and deals with cash
 
 function buy_auto(m, k) {
   switch (k) {
@@ -263,7 +265,7 @@ function buy_auto(m, k) {
     default:
       break;
   }
-}
+} //
 
 function auto_activate(m) {
   if (game.auto_array[m - 1][1]) {
@@ -282,7 +284,7 @@ function auto_activate(m) {
       "Buy a " + words_full[m] + " term for $" + notation(cost(m)) + ".";
   }
   document.getElementById("money_display").innerHTML = "$" + notation(game.cash);
-}
+} //
 
 function array_add(a, b) {
   if (a.length >= b.length) {
@@ -304,7 +306,7 @@ function array_add(a, b) {
   } else {
     return array_add(b, a);
   }
-}
+} //
 
 function show() {
   let g  = game.f.length
@@ -324,7 +326,7 @@ function show() {
       .classList.remove("invis");
   }
   refresh();
-}
+} // Makes invisible things visible
 
 function cost(x) {
   if (x > game.f.length - 1) {
@@ -332,7 +334,7 @@ function cost(x) {
   } else {
     return 10 ** Math.floor((x * (9 + x)) / 10) * cost_curve(game.f[x]);
   }
-}
+} // Determines cost based off of cost_curve and array values
 
 function refresh() {
   document.getElementById("money_display").innerHTML = "$" + notation(game.cash);
@@ -350,9 +352,8 @@ function refresh() {
     document.getElementById("display").innerHTML =
       "f(x) =" + func_to_string() + "<br>f(" + game.n + ") = " + comma(func(game.n));
   }
-  document.getElementById("digits").innerHTML = "(" + game.digits + " digits)";
+  document.getElementById("digits").innerHTML = "(" + game.digits + " digits)"; // Can move to dec_dig, not essential
 
-  //document.getElementById("cashb_text").innerHTML = "Cash out your terms. Automation costs $10<sup>" + /*(auto_cashb + 5)*/ 7 + "</sup>."
   if (game.digits != 100) {
     document.getElementById("cashb").innerHTML =
       "+ f(" + game.n + "+" + (100 - game.digits) + ")";
@@ -415,14 +416,14 @@ function refresh() {
     }
     if ( D.lte( D.sub( game.digits, amountOver ), 2 ) ) {
       document.getElementById("dig_dec_txt").innerHTML =
-        "Decrease the number of digits to 2 for 10<sup>"
+        "Decrease the number of digits to 2 for $10<sup>"
         + D.add( D.sub( game.digits, 2 ), 19 ) + "</sup> and reseting everything."
     }
   } else {
     document.getElementById("dig_dec_txt").innerHTML =
-        "Decrease the number of digits for 10<sup>20</sup> and reseting everything."
+        "Decrease the number of digits for $10<sup>20</sup> and reseting everything."
   }
-}
+} // Refreshes the screen
 
 function func_to_string() {
   let result = " 1";
@@ -443,7 +444,7 @@ function func_to_string() {
     }
   }
   return result;
-}
+} // Turns the function into a string to display
 
 function notation(num) {
   let s = num.toString()
@@ -461,22 +462,28 @@ function notation(num) {
     s.slice( s.indexOf('e') + 1 ) +
     "</sup>"
   );
-}
+} // Changes the numbers to be displayed
 
 function comma(num) {
-  if (num >= 10 ** 16) {
-    return notation(num);
-  }
-  let result = "";
-  let l = String(num).length - 1;
-  for (let i = 0; i <= l; i++) {
-    result = String(num)[l - i] + result;
-    if (i % 3 == 2 && l - i != 0) {
-      result = "," + result;
+  let s = num.toString()
+  if ( s.indexOf("e") == -1 ) {
+    let result = "";
+    let l = String(num).length - 1;
+    for (let i = 0; i <= l; i++) {
+      result = String(num)[l - i] + result;
+      if (i % 3 == 2 && l - i != 0) {
+        result = "," + result;
+      }
     }
+    return result;
   }
-  return result;
-}
+  return (
+    s.slice(0, 4) +
+    " x10<sup>" +
+    s.slice( s.indexOf('e') + 1 ) +
+    "</sup>"
+  );
+} // Changes the numbers to be commas, up until it changes to scientific
 
 function dec_dig( amount ) {
   game.cash = D(10);
@@ -524,13 +531,46 @@ function dec_dig( amount ) {
     document.getElementById("dig_dec_txt").innerHTML = "Decrease the number of digits for $10<sup>20</sup> and reseting everything."
   } else {
     document.getElementById("dig_dec").innerHTML = "Limit f(x)."
+    
+    document.getElementById("dig_dec").style.dislpay = "none"
     document.getElementById("dig_dec").classList.add("invis")
     document.getElementById("dig_dec").classList.add("limit-button")
+    document.getElementById("dig_dec").style.display = "initial"
   }
 
   refresh();
-}
+} // Decreases the number og digits by a certain amount
 
 function startOver() {
   document.getElementById("money_display").classList.remove("invis")
-}
+
+  document.getElementById("money_display").classList.remove("invis");
+  document.getElementById("digits").classList.remove("invis");
+  document.getElementById("auto").classList.remove("invis");
+
+  game.n = D(1);
+
+  document.getElementById("shop1").classList.remove("invis");
+  document.getElementById(words[1]).classList.remove("invis");
+  document.getElementById("input_inc_txt").innerHTML = "Increase the input on cash out by trading in 10 linear terms,
+  sacrificing the rest and losing your money.";
+
+  document.getElementById("cashb_text").classList.remove("invis");
+  document.getElementById("cashb").classList.remove("invis");
+  document.getElementById("cashb_auto").classList.remove("invis");
+
+  document.getElementById("display").innerHTML = "f(x) = 1<br />f(1) = 1";
+
+  document.getElementById("dig_dec").innerHTML = "Decrease"
+  document.getElementById("dig_dec").classList.remove("limit-button")
+
+  refresh();
+
+
+
+
+
+
+
+
+} // Is run when the player limits, undoes the invis-ing of 2 digits
