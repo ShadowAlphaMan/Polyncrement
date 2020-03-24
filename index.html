@@ -15,7 +15,61 @@
     <script src="save.js"></script>
   </head>
   <body>
-    <div id="game">
+
+    <div class="tab">
+      <button class="tablinks" onclick="openCity(event, 'game')" id="defaultOpen">Function</button>
+      <button class="tablinks" onclick="openCity(event, 'options')">Options</button>
+      <button class="tablinks" onclick="openCity(event, 'inf')">Infinity</button>
+      <button class="tablinks" onclick="openCity(event, 'challenges')">Challenges</button>
+      <button class="tablinks" onclick="openCity(event, 'achievements')">Achievements</button>
+    </div>
+
+    <div id="options" class="tabcontent invis">
+      Nothing's here yet.
+    </div>
+
+    <div id="inf" class="tabcontent invis">
+
+      <p id="inf_display"> You have 0/0. </p>
+
+
+      <button id="starting_up">
+        Decrease starting digit.<br>Cost: 1/0.
+      </button>
+
+      <button id="d0_up">
+        Earn extra /0 on limit.<br>Cost: 1/0.
+      </button><br>
+
+      <button id="autobuy_up">
+        Start with a linear autobuyer.<br>Cost: 1/0.
+      </button>
+
+      <button id="autobuy_sp_up">
+        Increase autobuyer speed.<br>Cost: 1/0.
+      </button><br>
+
+      <button id="cashout_up">
+        Start with 1 cashout/s.<br>Cost: 1/0.
+      </button>
+
+
+      <button id="deriv_up">
+        Take the derivative.<br>Cost: 1/0.
+      </button>
+
+
+    </div>
+
+    <div id="challenges" class="tabcontent invis">
+      Nothing's here yet.
+    </div>
+
+    <div id="achievements" class="tabcontent invis">
+      Nothing's here yet.
+    </div>
+
+    <div id="game" class="tabcontent">
       <h1 id="display">f(x) = 1<br />f(1) = 1</h1>
 
       <p id="digits" class="tiny">
@@ -109,9 +163,6 @@
 
     </div>
 
-    <div id="options">
-
-    </div>
 
 
   </body>

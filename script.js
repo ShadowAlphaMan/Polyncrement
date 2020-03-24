@@ -94,6 +94,8 @@ function getNewSave() { // setup
 
 
 function main() {
+  document.getElementById("defaultOpen").click();
+
   getNewSave();
 
   load();
@@ -211,6 +213,7 @@ function main() {
 
         document.getElementById("display").innerHTML =
           '<img src="geom.png">';
+
       }
     }
   });
@@ -314,7 +317,8 @@ function show() {
     document.getElementById("dig_dec_txt").classList.remove("invis");
     document.getElementById("dig_dec").classList.remove("invis");
   } else if ( game.digits == 2 && game.cash >= 10 ** 20) {
-      document.getElementById("dig_dec").classList.remove("invis")
+    document.getElementById("dig_dec").classList.remove("invis")
+    document.getElementById("dig_dec").classList.add("limit-button")
   }
 
   if ( g < 7 ){
@@ -531,13 +535,8 @@ function dec_dig( amount ) {
     document.getElementById("dig_dec_txt").innerHTML = "Decrease the number of digits for $10<sup>20</sup> and reseting everything."
   } else {
     document.getElementById("dig_dec").innerHTML = "Limit f(x)."
-
-    document.getElementById("dig_dec").style.dislpay = "none"
     document.getElementById("dig_dec").classList.add("invis")
-    document.getElementById("dig_dec").classList.add("limit-button")
-    document.getElementById("dig_dec").style.display = "initial"
   }
-
   refresh();
 } // Decreases the number og digits by a certain amount
 
@@ -548,7 +547,10 @@ function startOver() {
   document.getElementById("digits").classList.remove("invis");
   document.getElementById("auto").classList.remove("invis");
 
+  game.digits = D(100)
   game.n = D(1);
+  game.f = [1]
+  game.flength = game.f.length
 
   document.getElementById("shop1").classList.remove("invis");
   document.getElementById(words[1]).classList.remove("invis");
@@ -563,6 +565,9 @@ function startOver() {
   document.getElementById("dig_dec").innerHTML = "Decrease"
   document.getElementById("dig_dec").classList.remove("limit-button")
 
+  document.getElementById("inf_mb").classList.remove("invis")
+  document.getElementById("inf_display").innerHTML = "You have " + game.d0 + "/0."
+
   refresh();
 
 
@@ -573,3 +578,30 @@ function startOver() {
 
 
 } // Is run when the player limits, undoes the invis-ing of 2 digits
+
+
+
+
+
+
+
+function openTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
